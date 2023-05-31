@@ -1,6 +1,8 @@
 Certifique-se de ter o Node.js instalado em seu computador. O Node.js inclui o npm, que é usado para gerenciar as dependências do projeto.
+
 Instale as depedencias com 
 `npm i`
+
 Execute 
 `npm start`
 
