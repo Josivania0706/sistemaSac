@@ -1,0 +1,106 @@
+body {
+    margin: 0;
+    padding: 0;
+   
+  }
+
+
+.cardReclame {
+    width: 50%;
+    height: 450px;
+
+    border: 2px solid #06394C;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(6, 0, 32, 53);
+    margin: 100px auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.cardReclame h2{
+    
+    color: rgba(6, 57, 76, 0.91);
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+   
+}
+
+
+
+.cardReclame input{
+    margin-bottom: 25px;
+    width: 80%;
+    height: 55px;
+    padding-left: 10px;
+    background: rgba(99, 128, 140, 0.65);
+    font-size: 18px;
+    border-radius: 10px;
+    border: none;
+}
+
+
+.cardReclame textarea{
+    margin-bottom: 25px;
+    width: 80%;
+    height: 130px;
+    padding-left: 10px;
+    background: rgba(99, 128, 140, 0.65);
+    font-size: 18px;
+    border-radius: 10px;
+    border: none;
+}
+.cardReclame textarea::placeholder {
+    color: white; 
+
+}
+
+.cardReclame input::placeholder {
+    color: white; 
+
+}
+
+.cardReclame button{
+    margin-bottom: 15px;
+    margin-top: 10px;
+    width: 30%;
+    height: 58px;
+    background: #06394C;
+    font-size: 18px;
+    border-radius: 8px;
+    color: rgb(255, 255, 255);
+ 
+}
+.cardReclame Link{
+    text-decoration: none;
+ 
+}
+
+.select-estilizado {
+
+   
+    height: 49px;
+    border-radius: 12px;
+    background-color:rgba(99, 128, 140, 0.65); 
+    color: #333; 
+    
+    font-size: 14px; 
+    width: 250px; 
+}
+  /* Altera a aparência do dropdown (seta) */
+  .select-estilizado::after {
+    content: '\25BC';
+    position: absolute;
+    pointer-events: none; 
+  }
+  
+  /* Estiliza as opções do dropdown */
+  .select-estilizado option {
+    background-color: #fff;
+    color: #333;
+    font-size: 14px; 
+  }
+  

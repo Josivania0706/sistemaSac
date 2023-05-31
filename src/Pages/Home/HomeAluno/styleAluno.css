@@ -1,0 +1,194 @@
+.navbar {
+display: flex;
+height: 70px;
+justify-content: space-between;
+align-items: center;
+background-color:  #06394C;
+
+padding: 10px;
+}
+.colored-image {
+    filter: brightness(0) invert(1);
+}
+
+.logo img {
+    padding-left: 80px;
+    width: 60px;
+    height: 50px;
+}
+
+.menu li {
+display: inline-block;
+margin-left: 10px;
+margin-right: 5px;
+
+}
+
+.menu{
+    margin-right: 15px;
+    
+}
+.menu li:first-child {
+margin-left: 0;
+color:rgb(255, 255, 255);
+}
+
+.menu li a {
+text-decoration: none;
+color: #ffffff;
+font-weight: bold;
+}
+
+.menu li {
+    opacity: 0.5;
+  }
+  
+  .menu li.active {
+    opacity: 1;
+  }
+
+
+.divReclamacoes{
+    margin: 25px;
+}
+
+.divReclamacoes h1{
+    color: #06394C;
+}
+
+  .container {
+    display: flex;
+   
+    margin-top: 10px;
+    margin-bottom: 20px;
+    border-top: 1px solid #06394C;
+    border-bottom: 1px solid #06394C;
+    padding: 5px;
+    }
+  
+  .row {
+    display: flex;
+    width: 100%;
+  }
+  .item-row{
+    margin: 10px;
+    width: 100%;
+    
+  }
+  .item {
+    flex-basis: calc(33.33% - 10px);
+    margin: 5px;
+    text-align: center;
+
+    padding: 10px;
+  }
+
+  a {
+    text-decoration: none;
+    color: #06394C;
+    }
+
+
+    .container h4 {
+        opacity: 0.5;
+        text-align: center;
+      }
+      
+      .container h4.active {
+        opacity: 1;
+      }
+    
+
+.iconeHappy{
+    display: flex;
+    justify-Content: center;
+    align-Items: center ;
+    background-color: darkgreen;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    
+
+
+}
+.iconeSad{
+    display: flex;
+    justify-Content: center;
+    align-Items: center ;
+    background-color: darkred;
+    width: 30px;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+}
+.iconeHappy svg,
+.iconeSad svg {
+  color: white;
+}
+.conteudoReclamacao{
+   
+    display: flex;
+    flex-wrap: wrap;
+    justify-content:center;
+    gap: 10px;
+    
+
+}
+
+.conteudoReclamacao li{
+    background-color:rgb(222, 220, 218);
+    border-radius: 10px;
+    padding: 10px;
+    width: 25%;
+  margin-bottom: 10px;
+  margin-right: 5px;
+  list-style: none;
+
+
+}
+.horarioIcone{
+    display: flex;
+    align-items: center;
+}
+
+.conteudoReclamacao li p:first-child {
+    font-weight: bold;
+  }
+
+.horarioIcone p{
+    margin-right: 5px; 
+}
+.horarioIcone div{
+    
+    margin-left: auto;
+    margin-right: 10px;
+ }
+
+ @media (max-width: 768px) {
+    .conteudoReclamacao {
+      flex-direction: row;
+    }
+    
+    .conteudoReclamacao li {
+      flex-basis: 33.33%;
+      width: 100%;
+    }
+ }
+
+ @media (max-width: 675px) {
+    .conteudoReclamacao {
+    
+      flex-direction: column;
+      justify-content:center;
+      margin-right: 35px;
+    }
+    
+    .conteudoReclamacao li {
+     width: 100%;
+      flex-basis: 50%;
+      
+    }
+ }
+
+
+

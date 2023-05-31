@@ -1,0 +1,76 @@
+body {
+    margin: 0;
+    padding: 0;
+   
+  }
+
+
+.cardLogin1 {
+    width: 30%;
+    height: 400px;
+    border: 2px solid #06394C;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(6, 0, 32, 53);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.cardLogin1 h2{
+    
+    color: rgba(6, 57, 76, 0.91);
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+   
+}
+
+.cardLogin1 input{
+    margin-bottom: 25px;
+    width: 70%;
+    height: 55px;
+    padding-left: 10px;
+    background: rgba(99, 128, 140, 0.65);
+    font-size: 18px;
+    border-radius: 10px;
+    border: none;
+}
+
+.cardLogin1 input::placeholder {
+    color: white; 
+
+}
+
+.cardLogin1 button{
+    margin-bottom: 15px;
+    width: 72%;
+    height: 58px;
+    background: #06394C;
+    font-size: 18px;
+    border-radius: 8px;
+    color: rgb(255, 255, 255);
+ 
+}
+.cardLogin1 Link{
+    text-decoration: none;
+ 
+}
+
+.logo{
+   
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 120px;
+    padding-bottom: 30px;
+    padding-top: 30px;
+}
+.logo img{
+    max-width: 100%;
+    max-height: 100%;
+    padding-left: 8%;
+   
+}
