@@ -1,0 +1,48 @@
+.navbar {
+    display: flex;
+    height: 70px;
+    justify-content: space-between;
+    align-items: center;
+    background-color:  #06394C;
+    
+    padding: 10px;
+    }
+    .colored-image {
+        filter: brightness(0) invert(1);
+    }
+    
+    .logo img {
+        padding-left: 80px;
+        width: 60px;
+        height: 50px;
+    }
+    
+    .menu li {
+    display: inline-block;
+    margin-left: 10px;
+    margin-right: 5px;
+    
+    }
+    
+    .menu{
+        margin-right: 15px;
+        
+    }
+    .menu li:first-child {
+    margin-left: 0;
+    color:rgb(255, 255, 255);
+    }
+    
+    .menu li a {
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: bold;
+    }
+    
+    .menu li {
+        opacity: 0.5;
+      }
+      
+      .menu li.active {
+        opacity: 1;
+      }

@@ -104,3 +104,11 @@ body {
     font-size: 14px; 
   }
   
+
+.menu1 li {
+    opacity: 0.5;
+  }
+  
+.menu li.active {
+    opacity: 1;
+  }
