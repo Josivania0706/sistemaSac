@@ -7,7 +7,7 @@ export const Header = () => {
     const location = useLocation();
 
     const renderLinks = () => {
-        console.log("m,enuuu ", user!.tipo2)
+      
         if (user!.tipo2 === "aluno") {
             return (
                 <>
@@ -31,9 +31,13 @@ export const Header = () => {
                     <li className={location.pathname === "/home" ? "active" : ""}>
                         <Link to="/home">Início</Link>
                     </li>
-                    <li className={location.pathname === "/home/solucoes" ? "active" : ""}>
-                        <Link to="/home/solucoes">Soluções</Link>
+                    <li className={location.pathname === "/home/dados" ? "active" : ""}>
+                        <Link to="/home/dados">Dados</Link>
                     </li>
+                    <li className={location.pathname === "/home/mostrarsolucao" ? "active" : ""}>
+                        <Link to="/home/mostrarsolucao">Soluções</Link>
+                    </li>
+                 
                     <li className={location.pathname === "/" ? "active" : ""}>
                         <Link to="/">Sair</Link>
                     </li>
@@ -48,8 +52,11 @@ export const Header = () => {
                     <li className={location.pathname === "/home/responder" ? "active" : ""}>
                         <Link to="/home/responder">Responder</Link>
                     </li>
-                    <li className={location.pathname === "/home/historico" ? "active" : ""}>
-                        <Link to="/home/historico">Histórico</Link>
+                    <li className={location.pathname === "/home/solucoes" ? "active" : ""}>
+                        <Link to="/home/solucoes">Criar soluções</Link>
+                    </li>
+                    <li className={location.pathname === "/home/mostrarsolucao" ? "active" : ""}>
+                        <Link to="/home/mostrarsolucao">Soluções</Link>
                     </li>
                     <li className={location.pathname === "/" ? "active" : ""}>
                         <Link to="/">Sair</Link>

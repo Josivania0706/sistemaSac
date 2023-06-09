@@ -66,7 +66,9 @@ font-weight: bold;
     padding: 5px;
     }
   
-  
+.corResposta{
+  color: green;
+}
   .row {
     display: flex;
     width: 100%;
@@ -190,6 +192,3 @@ font-weight: bold;
       
     }
  }
-
-
-

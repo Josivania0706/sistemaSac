@@ -1,18 +1,19 @@
 import { useContext, useEffect, useState } from "react";
 import { Header } from "../Header"
 import { AuthContext } from "../../contexts/auth";
-import { iMensagemBase, ibuscarMsg } from "../../contexts/type";
+import { iMensagemBase, iRespostaBase, ibuscarMsg } from "../../contexts/type";
 import { RiEmotionHappyLine } from "react-icons/ri";
 import { HiOutlineEmojiSad } from "react-icons/hi";
 
 
 export const Historico = () => {
 
-    const { showMensagem, user } = useContext(AuthContext);
+    const { showMensagem, user, showResposta } = useContext(AuthContext);
 
     const [selectedOption, setSelectedOption] = useState('');
     const [filter1] = useState("filter");
     const [dados, setDados] = useState<iMensagemBase[]>([]);
+    const [resposta, setResposta] = useState<iRespostaBase[]>([]);
 
     useEffect(() => {
         const match = async () => {
@@ -23,10 +24,14 @@ export const Historico = () => {
                 };
                 const msgs = await showMensagem(data);
                 setDados(msgs)
+                const resp = await showResposta("1");
+                setResposta(resp)
+                console.log(user)
+              
 
             } catch (error) {
                 console.error("Erro ao carregar reclamações:", error);
-                alert("Ocorreu um erro ao fazer login. Por favor, tente novamente.");
+                alert("Ocorreu um erro ao buscar reclamações. Por favor, tente novamente.");
             }
         };
 
@@ -56,22 +61,46 @@ export const Historico = () => {
                     <div>
                         <ul className="conteudoReclamacao">
                             {dados.map((item) => {
-                                if (selectedOption === '' || selectedOption === item.msgstatus) {
+                                const result = resposta.find((r) => r.remetente === item.idmsg);
+                                if (selectedOption === '') {//aluno
                                     return (
-                                        <li key={item.idms}>
+                                        <li key={item.idmsg}>
                                             <p>{item.msgtitulo}</p>
                                             <p>{item.msgtxt}</p>
+
+                                            {result && (
+                                                <p className="corResposta">Resposta: {result.resposta}
+                                                    <p>{result.data}</p>
+                                                </p>
+                                            )}
+
                                             <p className="horarioIcone">
                                                 <p>{item.msgdata}</p>
-                                                {item.msgstatus === "0" ? (
-                                                    <div className="iconeHappy">
-                                                        <RiEmotionHappyLine title={"Respondido"} />
-                                                    </div>
-                                                ) : (
-                                                    <div className="iconeSad">
-                                                        <HiOutlineEmojiSad title={"Não respondido"} />
-                                                    </div>
-                                                )}
+                                                {item.msgstatus === "0" || result ? <div className="iconeHappy"><RiEmotionHappyLine title={"Respondido"} /></div> : <div className="iconeSad"><HiOutlineEmojiSad title={"Não respondido"} /></div>}
+
+                                            </p>
+                                        </li>
+                                    );
+                                }
+                                console.log("idd", item.idmsg === result?.remetente)
+                                if ((item.idmsg === result?.remetente && item.userid === user.id)
+                                    && (item.msgdestino === user.tipo1)) {//setor
+                                        
+                                    return (
+                                        <li key={item.idmsg}>
+                                            <p>{item.msgtitulo}</p>
+                                            <p>{item.msgtxt}</p>
+
+                                            {result && (
+                                                <p className="corResposta">Resposta: {result.resposta}
+                                                    <p>{result.data}</p>
+                                                </p>
+                                            )}
+
+                                            <p className="horarioIcone">
+                                                <p>{item.msgdata}</p>
+                                                {item.msgstatus === "0" || result ? <div className="iconeHappy"><RiEmotionHappyLine title={"Respondido"} /></div> : <div className="iconeSad"><HiOutlineEmojiSad title={"Não respondido"} /></div>}
+
                                             </p>
                                         </li>
                                     );
@@ -83,6 +112,7 @@ export const Historico = () => {
                 ) : (
                     <p>Você não possui histórico</p>
                 )}
+
             </div>
 
 

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { iAuthProvider, iAuthTypes, iDataLogin, iDataRegister, iMensagemBase, iMensagemUser, iObjectUser, ibuscarMsg } from "./type";
+import { iAuthProvider, iAuthTypes, iDataLogin, iDataRegister, iMensagemBase, iMensagemUser, iObjectUser, iRespostaBase, iRespostaUser, iSolucaoBase, iSolucaoRegister, ibuscarMsg, ibuscarSolucao, igraficoDate } from "./type";
 import { createContext, useState } from 'react';
 
 
@@ -15,9 +15,28 @@ export const AuthProvider = ({ children }: iAuthProvider) => {
 
     const [user, setUser] = useState<iObjectUser | null>(null);
 
+   const registerSolucao = async(data: iSolucaoRegister) => {
+    try {
+        const response = await api.post('/solucoesform.php', data);
+
+        if (response.status === 200) {//deu certo cadastrar a msg
+            return true;
+        } else {//O cadastro falhou
+            alert('Não foi possível cadastrar!');
+        }
+
+    } catch (error) {
+        console.log(error)
+        alert('Ops, não foi possível acessar o banco');
+        
+    }
+    return false;
+   }
+   
+   
     const registerMensagemUser = async (data: iMensagemUser) => {
         try {
-            const response = await api.post('/reclamacoesProcesso.php', data);
+            const response = await api.post('/reclamacoesform.php', data);
     
             if (response.status === 200) {//deu certo cadastrar a msg
                 return true;
@@ -33,10 +52,59 @@ export const AuthProvider = ({ children }: iAuthProvider) => {
         return false;
     }
 
+    const registerRespostaUser = async(data:iRespostaUser) => {
+        try {
+            const response = await api.post('/respostasform.php', data);
+            if (response.status === 200) {//deu certo cadastrar a msg
+                return true;
+            } else {//O cadastro falhou
+                alert('Não foi possível cadastrar!');
+            }
+            
+        } catch (error) {
+            console.log(error)
+            alert('Ops, não foi possível acessar o banco');
+        }
+        return false;
+    }
+    const showResposta = async(idmsg: string) =>{
+
+        try {
+            const response = await api.post('/rpstrow.php', idmsg);
+           
+           
+            if (response.status === 200) {//deu certo cadastrar a msg
+                return  response.data as iRespostaBase[];
+            } 
+        } catch (error) {
+            console.log(error)
+            alert('Ops, não foi possível acessar o banco');
+            
+        }
+        return [];
+    }
+
+    const showSolucoes = async(data: ibuscarSolucao) => {
+        try {
+           
+            const response = await api.post('/slcsrow.php', data);
+            
+           
+            if (response.status === 200) {//deu certo cadastrar a msg
+                return  response.data as iSolucaoBase[];
+            } 
+        } catch (error) {
+            console.log(error)
+            alert('Ops, não foi possível acessar o banco');
+            
+        }
+        return [];
+    }
     const showMensagem = async(data: ibuscarMsg) => {
         try {
+           
             const response = await api.post('/msgrow.php', data);
-            console.log("recebido: ",response.data)
+           
            
             if (response.status === 200) {//deu certo cadastrar a msg
                 return  response.data as iMensagemBase[];
@@ -48,10 +116,29 @@ export const AuthProvider = ({ children }: iAuthProvider) => {
         }
         return [];
     }
+
+    const showDateGrafico = async(data: ibuscarMsg) => {
+        try {
+    
+            const response = await api.post('/msgrow.php', data);
+           
+           
+            if (response.status === 200) {//deu certo cadastrar a msg
+                return  response.data as igraficoDate;
+            } 
+        } catch (error) {
+            console.log(error)
+            alert('Ops, não foi possível acessar o banco');
+            
+        }
+        return false;
+    }
+
+    
     const registerUser = async (data: iDataRegister) => { //ok
         try {
-            const response = await api.post('/formcadastro.php', data);
-            console.log(response)
+            const response = await api.post('/cadastroform.php', data);
+            
 
             if (response.status === 200) {//deu certo cadastrar
                 return true;
@@ -73,7 +160,7 @@ export const AuthProvider = ({ children }: iAuthProvider) => {
           
             if (response.status === 200) {
                 setUser(response.data)
-                console.log(user)
+              
                 return true;
             } else {
                 alert("Usuário não encontrado. Verifique suas credenciais.");
@@ -102,7 +189,7 @@ export const AuthProvider = ({ children }: iAuthProvider) => {
     }
 
     return (
-        <AuthContext.Provider value={{ user,showMensagem, registerMensagemUser, registerUser, loginUser, logoutUser }}>
+        <AuthContext.Provider value={{ user, showSolucoes, showResposta, showDateGrafico, showMensagem, registerSolucao, registerMensagemUser, registerRespostaUser, registerUser, loginUser, logoutUser }}>
             {children}
         </AuthContext.Provider>
     )
