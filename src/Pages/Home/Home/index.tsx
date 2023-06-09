@@ -5,22 +5,24 @@ import { RiEmotionHappyLine } from "react-icons/ri";
 import { HiOutlineEmojiSad } from "react-icons/hi";
 import { Header } from "../../Header/index";
 import { AuthContext } from "../../../contexts/auth";
-import { iMensagemBase, ibuscarMsg } from "../../../contexts/type";
+import { iMensagemBase, iRespostaBase, ibuscarMsg } from "../../../contexts/type";
 
 
 
 export const Home = () => {
-
-    const { showMensagem, user } = useContext(AuthContext);
+    
+    const { showMensagem, user, showResposta } = useContext(AuthContext);
 
     const location = useLocation();
     const [selectedOption, setSelectedOption] = useState('');
     const [filter1, setfilter1] = useState("all");
     const [dados, setDados] = useState<iMensagemBase[]>([]);
+
+    const [resposta, setResposta] = useState<iRespostaBase[]>([]);
     const handleOptionClick = (option: string) => {
         setSelectedOption(option);
     };
-    
+
 
     useEffect(() => {
         const match = async () => {
@@ -30,7 +32,11 @@ export const Home = () => {
                     filter: filter1,
                 };
                 const msgs = await showMensagem(data);
+                const resp = await showResposta("1");
+                setResposta(resp)
                 setDados(msgs)
+             
+
 
             } catch (error) {
                 console.error("Erro ao carregar reclamações:", error);
@@ -40,6 +46,8 @@ export const Home = () => {
 
         match();
     }, []);
+
+
 
 
 
@@ -83,13 +91,60 @@ export const Home = () => {
                             <div >
                                 <ul className="conteudoReclamacao">
                                     {dados.map((item) => {
-                                        if (selectedOption === '' || selectedOption === item.msgstatus) {
-                                            return <li key={item.idms}>
+                                        const result = resposta.find((r) => r.remetente === item.idmsg);
+
+                                        if (selectedOption === '') {
+                                            return <li key={item.idmsg} >
                                                 <p >{item.msgtitulo}</p>
                                                 <p>{item.msgtxt}</p>
+                                                {result && (
+                                                    <p className="corResposta">Resposta: {result.resposta}
+                                                        <p>{result.data}</p>
+                                                    </p>
+                                                )}
+
                                                 <p className="horarioIcone">
                                                     <p>{item.msgdata}</p>
-                                                    {item.msgstatus === "0" ? <div className="iconeHappy"><RiEmotionHappyLine title={"Respondido"} /></div> : <div className="iconeSad"><HiOutlineEmojiSad title={"Não respondido"} /></div>}
+                                                    {item.msgstatus === "0" || result ? <div className="iconeHappy"><RiEmotionHappyLine title={"Respondido"} /></div> : <div className="iconeSad"><HiOutlineEmojiSad title={"Não respondido"} /></div>}
+
+                                                </p>
+                                            </li>;
+                                        }
+
+                                        if ((selectedOption === "" || ((selectedOption === "0"))) && result) {
+                                            return <li key={item.idmsg} >
+                                                <p >{item.msgtitulo}</p>
+                                                <p>{item.msgtxt}</p>
+                                                {result && (
+                                                    <p className="corResposta">Resposta: {result.resposta}
+                                                        <p>{result.data}</p>
+                                                    </p>
+                                                )}
+
+                                                <p className="horarioIcone">
+                                                    <p>{item.msgdata}</p>
+                                                    {item.msgstatus === "0" || result ? <div className="iconeHappy"><RiEmotionHappyLine title={"Respondido"} /></div> : <div className="iconeSad"><HiOutlineEmojiSad title={"Não respondido"} /></div>}
+
+                                                </p>
+                                            </li>;
+                                        }
+
+                                        if ((selectedOption === item.msgstatus) && !result) {
+                                            return <li key={item.idmsg} >
+                                                <p >{item.msgtitulo}</p>
+                                                <p>{item.msgtxt}</p>
+
+                                                <p className="horarioIcone">
+                                                    <p>{item.msgdata}</p>
+                                                    {item.msgstatus === "0" ? (
+                                                        <div className="iconeHappy">
+                                                            <RiEmotionHappyLine title={"Respondido"} />
+                                                        </div>
+                                                    ) : (
+                                                        <div className="iconeSad">
+                                                            <HiOutlineEmojiSad title={"Não respondido"} />
+                                                        </div>
+                                                    )}
                                                 </p>
                                             </li>;
                                         }
@@ -102,22 +157,23 @@ export const Home = () => {
                                 <p>Você não possui histórico</p>
                             )
                         }
+
                     </div>
 
                 </>
             );
         } else if (user!.tipo2 === "admin") {
             return (
-                
+
                 <>
                     <div className="divReclamacoes">
 
                         <h4>Reclamações</h4>
                         <div className="container">
                             <div className="row">
-                                
-                            
-                            <div className="item-row">
+
+
+                                <div className="item-row">
                                     <h4 className={`item ${selectedOption === '3' ? 'active' : ''}`}// 0 representa todas reclamações respondidas
                                         onClick={() => handleOptionClick('3')}>
                                         Professor
@@ -138,7 +194,7 @@ export const Home = () => {
                                 <div className="item-row">
                                     <h4 className={`item ${selectedOption === '6' ? 'active' : ''}`}// 1 representa todas reclamações não lidas
                                         onClick={() => handleOptionClick('6')}>
-                                       Serviços Gerais
+                                        Serviços Gerais
                                     </h4>
                                 </div>
                             </div>
@@ -147,28 +203,37 @@ export const Home = () => {
                     </div>
 
                     {user && dados.length > 0 ?
-                            <div >
-                                <ul className="conteudoReclamacao">
-                                    {dados.map((item) => {
-                                        if ((selectedOption === '' || selectedOption === item.msgdestino)) {
-                                            return <li key={item.idms}>
-                                                <p >{item.msgtitulo}</p>
-                                                <p>{item.msgtxt}</p>
-                                                <p className="horarioIcone">
-                                                    <p>{item.msgdata}</p>
-                                                    {item.msgstatus === "0" ? <div className="iconeHappy"><RiEmotionHappyLine title={"Respondido"} /></div> : <div className="iconeSad"><HiOutlineEmojiSad title={"Não respondido"} /></div>}
-                                                </p>
-                                            </li>;
-                                        }
-                                        return null;
-                                    })}
-                                </ul>
+                        <div >
+                            <ul className="conteudoReclamacao">
+                                {dados.map((item) => {
+                                    const result = resposta.find((r) => r.remetente === item.idmsg);
 
-                            </div>
-                            : (
-                                <p>Você não possui histórico</p>
-                            )
-                        }
+                                    if ((selectedOption === '' || selectedOption === item.msgdestino)) {
+                                        return <li key={item.idmsg}>
+                                            <p >{item.msgtitulo}</p>
+                                            <p>{item.msgtxt}</p>
+                                            {result && (
+                                                <p className="corResposta">Resposta: {result.resposta}
+                                                    <p>{result.data}</p>
+                                                </p>
+                                            )}
+
+                                            <p className="horarioIcone">
+                                                <p>{item.msgdata}</p>
+                                                {item.msgstatus === "0" || result ? <div className="iconeHappy"><RiEmotionHappyLine title={"Respondido"} /></div> : <div className="iconeSad"><HiOutlineEmojiSad title={"Não respondido"} /></div>}
+
+                                            </p>
+                                        </li>;
+                                    }
+                                    return null;
+                                })}
+                            </ul>
+
+                        </div>
+                        : (
+                            <p>Você não possui histórico</p>
+                        )
+                    }
                 </>
             );
         } else if (user!.tipo2 === "setor") {
@@ -202,16 +267,49 @@ export const Home = () => {
                             <div >
                                 <ul className="conteudoReclamacao">
                                     {dados.map((item) => {
-                                        if ((selectedOption === '' || selectedOption === item.msgstatus) && user!.tipo1 === item.msgdestino) {
-                                            return <li key={item.idms}>
+                                        const result = resposta.find((r) => r.remetente === item.idmsg);
+
+                                        if ((selectedOption === '' || selectedOption === item.msgstatus)
+                                            && user!.tipo1 === item.msgdestino && !result) {
+                                            return <li key={item.idmsg}>
                                                 <p >{item.msgtitulo}</p>
                                                 <p>{item.msgtxt}</p>
+
                                                 <p className="horarioIcone">
                                                     <p>{item.msgdata}</p>
-                                                    {item.msgstatus === "0" ? <div className="iconeHappy"><RiEmotionHappyLine title={"Respondido"} /></div> : <div className="iconeSad"><HiOutlineEmojiSad title={"Não respondido"} /></div>}
+                                                    {item.msgstatus === "0" || result ? <div className="iconeHappy"><RiEmotionHappyLine title={"Respondido"} /></div> : <div className="iconeSad"><HiOutlineEmojiSad title={"Não respondido"} /></div>}
+
                                                 </p>
                                             </li>;
                                         }
+
+                                        if (
+                                            (selectedOption === "" || ((selectedOption === "0"))) &&
+                                            item.msgdestino === user.tipo1 && result
+                                        ) {
+
+                                            return (
+                                                <li key={item.idmsg} onClick={() => {
+
+                                                }}>
+                                                    <p>{item.msgtitulo}</p>
+                                                    <p>{item.msgtxt}</p>
+
+                                                    {result && (
+                                                        <p className="corResposta">Resposta: {result.resposta}
+                                                            <p>{result.data}</p>
+                                                        </p>
+                                                    )}
+
+                                                    <p className="horarioIcone">
+                                                        <p>{item.msgdata}</p>
+                                                        {item.msgstatus === "0" || result ? <div className="iconeHappy"><RiEmotionHappyLine title={"Respondido"} /></div> : <div className="iconeSad"><HiOutlineEmojiSad title={"Não respondido"} /></div>}
+
+                                                    </p>
+                                                </li>
+                                            );
+                                        }
+
                                         return null;
                                     })}
                                 </ul>

@@ -12,8 +12,8 @@ export const Reclamacao = () => {
     const [titulo, setTitulo] = useState("");
     const [reclamacao, setReclamacao] = useState("");
     const [destino, setDestino] = useState("");
-    const status = 1;
-    const id_User = user!.id;
+    const status = "1";
+    const id_User:string = user!.id;
 
 
     const handleLogin = async () => {
